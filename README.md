@@ -1,2 +1,2 @@
-# hermann
-An API to provide an Apache Kafka as self-service 
+# Hermann
+An API to bring self service to Apache Kafka
