@@ -1,4 +1,4 @@
-package com.purbon.kafka.hermann;
+package com.purbon.kafka.hermann.containers;
 
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;

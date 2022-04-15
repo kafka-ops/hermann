@@ -1,6 +1,7 @@
 package com.purbon.kafka.hermann;
 
 import com.purbon.kafka.hermann.api.HermannAdminClient;
+import com.purbon.kafka.hermann.containers.MyKafkaContainer;
 import com.purbon.kafka.hermann.controller.request.ArtefactRequest;
 import com.purbon.kafka.hermann.controller.request.TopicSpec;
 import com.purbon.kafka.hermann.managers.TopicManager;

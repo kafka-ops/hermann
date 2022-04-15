@@ -1,10 +1,8 @@
-package com.purbon.kafka.hermann;
+package com.purbon.kafka.hermann.containers;
 
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
-
-import javax.swing.*;
 
 /*
 
