@@ -8,6 +8,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class Topic {
     private Long partitions;
     private Short replicationFactor;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "topic_config_mapping",
             joinColumns = {@JoinColumn(name = "topic_name", referencedColumnName = "name")})
     @Column(name = "config")
