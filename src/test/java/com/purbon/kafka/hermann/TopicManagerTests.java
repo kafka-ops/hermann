@@ -19,6 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -80,7 +81,39 @@ public class TopicManagerTests {
                 topic -> topic.get().getConfig().containsKey("retention.ms"),
                 "config check"
         ));
+    }
 
+    @Test
+    public void shouldUpdateAlreadyCreatedTopics() throws IOException {
+        var topicManager = new TopicManager(topicRepository, adminClient);
+        var name = "foo";
+        var namespace = "name.space";
+
+        var request = makeTopic(namespace, name, Collections.singletonMap("retention.ms", "42"));
+        var response = topicManager.apply(request, name);
+        assertThat(response).hasFieldOrPropertyWithValue("name", "name.space.foo");
+
+        var updateRequest = makeTopic(namespace, name, Collections.singletonMap("retention.ms", "24"));
+        topicManager.apply(updateRequest, name);
+        Optional<Topic> optionalTopic = topicRepository.findById("name.space.foo");
+        assertThat(optionalTopic).has(new Condition<>(
+                topic -> topic.get().getConfig().get("retention.ms").equalsIgnoreCase("24"),
+                "config check"
+        ));
+    }
+
+    private ArtefactRequest<TopicSpec> makeTopic(String namespace, String name, Map<String, String> config) {
+        var request = new ArtefactRequest<TopicSpec>();
+        request.setNamespace(namespace);
+
+        var topicSpec = new TopicSpec();
+        topicSpec.setName(name);
+        topicSpec.setPartitions(1L);
+        topicSpec.setReplicationFactor((short) 1);
+        topicSpec.setConfig(config);
+        request.setSpec(topicSpec);
+
+        return request;
     }
 
     @DynamicPropertySource
