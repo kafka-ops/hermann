@@ -1,7 +1,6 @@
 package com.purbon.kafka.hermann.controller.response;
 
 
-import com.purbon.kafka.hermann.controller.request.TopicSpec;
 import com.purbon.kafka.hermann.model.Topic;
 import lombok.Getter;
 import lombok.Setter;

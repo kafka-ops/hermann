@@ -1,5 +1,6 @@
 package com.purbon.kafka.hermann.controller;
 
+import com.purbon.kafka.hermann.controller.exceptions.ResourceNotFoundException;
 import com.purbon.kafka.hermann.controller.request.ArtefactRequest;
 import com.purbon.kafka.hermann.controller.request.TopicSpec;
 import com.purbon.kafka.hermann.controller.response.TopicResponse;
@@ -10,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping(path = "/api")
 public class TopicsController {
 
     private TopicManager topicManager;
