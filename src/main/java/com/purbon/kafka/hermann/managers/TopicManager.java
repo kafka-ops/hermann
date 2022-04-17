@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,15 @@ public class TopicManager {
 
         topicRepository.save(t);
         return new TopicResponse(t);
+    }
+
+    public boolean delete(String name) throws IOException {
+        Optional<Topic> topic = topicRepository.findById(name);
+        if (topic.isPresent()) {
+            adminClient.deleteTopics(Collections.singletonList(name));
+            topicRepository.delete(topic.get());
+        }
+        return true;
     }
 
     public List<TopicResponse> all() {

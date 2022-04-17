@@ -3,6 +3,8 @@ package com.purbon.kafka.hermann;
 import com.purbon.kafka.hermann.controller.request.RegisterUserRequest;
 import com.purbon.kafka.hermann.managers.RegistrationService;
 import com.purbon.kafka.hermann.model.Role;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +15,8 @@ import static java.util.Arrays.asList;
 
 @Component
 public class ApplicationBootstrap implements ApplicationListener<ContextRefreshedEvent> {
+
+    private static final Logger LOGGER = LogManager.getLogger(ApplicationBootstrap.class);
 
     private RegistrationService registrationService;
     private PasswordEncoder encoder;
@@ -34,7 +38,11 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
         request.setPassword(encoder.encode("pass"));
         request.addRole("admin");
 
-        registrationService.register(request);
+        try {
+            registrationService.register(request);
+        } catch (Exception ex) {
+            LOGGER.debug(ex.getMessage());
+        }
     }
 
     private void bootstrapRoles() {

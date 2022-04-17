@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/v1/")
 public class TopicsController {
 
     private TopicManager topicManager;
@@ -28,7 +28,7 @@ public class TopicsController {
     }
 
     @PutMapping(
-            value = "/managers/topics/{name}",
+            value = "/topics/{name}",
             consumes = { "application/yaml", "application/yaml"},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -38,18 +38,18 @@ public class TopicsController {
         return response;
     }
 
-    @GetMapping("/managers/topics/{name}")
+    @GetMapping("/topics/{name}")
     public TopicResponse get(@PathVariable(value = "name") String name) {
         return topicManager.find(name).orElseThrow(ResourceNotFoundException::new);
     }
 
-    @GetMapping("/managers/topics")
+    @GetMapping("/topics")
     public List<TopicResponse> getAll() {
         return topicManager.all();
     }
 
-    @DeleteMapping("/managers/topics/{name}")
-    public String delete(@PathVariable(value = "name") String name) {
-        return "";
+    @DeleteMapping("/topics/{name}")
+    public Boolean delete(@PathVariable(value = "name") String name) throws IOException {
+        return topicManager.delete(name);
     }
 }
