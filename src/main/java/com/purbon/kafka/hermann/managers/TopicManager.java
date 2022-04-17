@@ -31,14 +31,15 @@ public class TopicManager {
     public TopicResponse apply(ArtefactRequest<TopicSpec> request, String name) throws IOException {
 
         var spec = request.getSpec();
+        var fullname = String.format("%s.%s", request.getNamespace(), name);
 
         Topic t = new Topic();
-        t.setName(String.format("%s.%s", request.getNamespace(), name));
+        t.setName(fullname);
         t.setConfig(spec.getConfig());
         t.setPartitions(spec.getPartitions());
         t.setReplicationFactor(spec.getReplicationFactor());
 
-        var response = find(name);
+        var response = find(fullname);
 
         if (response.isPresent()) {// update config
             adminClient.updateTopicConfig(t);

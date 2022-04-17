@@ -89,18 +89,24 @@ public class TopicManagerTests {
         var topicManager = new TopicManager(topicRepository, adminClient);
         var name = "foo";
         var namespace = "name.space";
+        var fullTopicName = namespace + "." + name;
 
         var request = makeTopic(namespace, name, Collections.singletonMap("retention.ms", "42"));
         var response = topicManager.apply(request, name);
-        assertThat(response).hasFieldOrPropertyWithValue("name", "name.space.foo");
+        assertThat(response).hasFieldOrPropertyWithValue("name", fullTopicName);
 
         var updateRequest = makeTopic(namespace, name, Collections.singletonMap("retention.ms", "24"));
         topicManager.apply(updateRequest, name);
-        Optional<Topic> optionalTopic = topicRepository.findById("name.space.foo");
+
+        Optional<Topic> optionalTopic = topicRepository.findById(fullTopicName);
         assertThat(optionalTopic).has(new Condition<>(
                 topic -> topic.get().getConfig().get("retention.ms").equalsIgnoreCase("24"),
                 "config check"
         ));
+
+        var config = adminClient.getActualTopicConfig(fullTopicName);
+        var configEntry = config.get("retention.ms");
+        assertThat(configEntry.value()).isEqualTo("24");
     }
 
     private ArtefactRequest<TopicSpec> makeTopic(String namespace, String name, Map<String, String> config) {
