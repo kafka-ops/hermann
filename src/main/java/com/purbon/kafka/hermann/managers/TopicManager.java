@@ -1,6 +1,6 @@
 package com.purbon.kafka.hermann.managers;
 
-import com.purbon.kafka.hermann.api.HermannAdminClient;
+import com.purbon.kafka.julie.api.JulieAdminClient;
 import com.purbon.kafka.hermann.controller.request.ArtefactRequest;
 import com.purbon.kafka.hermann.controller.request.TopicSpec;
 import com.purbon.kafka.hermann.controller.response.TopicResponse;
@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TopicManager {
+public class TopicManager implements ArtefactManager<TopicSpec, TopicResponse> {
 
     public static final String REPLICATION_FACTOR = "replication.factor";
     public static final String NUM_PARTITIONS = "num.partitions";
 
     private TopicRepository topicRepository;
-    private HermannAdminClient adminClient;
+    private JulieAdminClient adminClient;
 
-    public TopicManager(TopicRepository topicRepository, HermannAdminClient adminClient) {
+    public TopicManager(TopicRepository topicRepository, JulieAdminClient adminClient) {
         this.topicRepository = topicRepository;
         this.adminClient = adminClient;
     }
@@ -51,13 +51,13 @@ public class TopicManager {
         return new TopicResponse(t);
     }
 
-    public boolean delete(String name) throws IOException {
+    public Optional<TopicResponse> delete(String name) throws IOException {
         Optional<Topic> topic = topicRepository.findById(name);
         if (topic.isPresent()) {
             adminClient.deleteTopics(Collections.singletonList(name));
             topicRepository.delete(topic.get());
         }
-        return true;
+        return topic.map(TopicResponse::new);
     }
 
     public List<TopicResponse> all() {

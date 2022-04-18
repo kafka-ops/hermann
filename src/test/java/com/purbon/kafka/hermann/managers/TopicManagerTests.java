@@ -1,10 +1,10 @@
-package com.purbon.kafka.hermann;
+package com.purbon.kafka.hermann.managers;
 
-import com.purbon.kafka.hermann.api.HermannAdminClient;
+import com.purbon.kafka.hermann.HermannApplication;
+import com.purbon.kafka.julie.api.JulieAdminClient;
 import com.purbon.kafka.hermann.containers.MyKafkaContainer;
 import com.purbon.kafka.hermann.controller.request.ArtefactRequest;
 import com.purbon.kafka.hermann.controller.request.TopicSpec;
-import com.purbon.kafka.hermann.managers.TopicManager;
 import com.purbon.kafka.hermann.model.Topic;
 import com.purbon.kafka.hermann.storage.TopicRepository;
 import org.assertj.core.api.Condition;
@@ -43,7 +43,7 @@ public class TopicManagerTests {
     private TopicRepository topicRepository;
 
     @Autowired
-    private HermannAdminClient adminClient;
+    private JulieAdminClient adminClient;
 
     @Test
     public void shouldCreateNewTopics() throws IOException {

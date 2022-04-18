@@ -1,4 +1,4 @@
-package com.purbon.kafka.hermann.api;
+package com.purbon.kafka.julie.api;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import com.purbon.kafka.hermann.model.HermannAclBinding;
+import com.purbon.kafka.julie.model.JulieAclBinding;
 import com.purbon.kafka.hermann.model.Topic;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AlterConfigOp;
@@ -37,13 +37,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HermannAdminClient {
+public class JulieAdminClient {
 
-    private static final Logger LOGGER = LogManager.getLogger(HermannAdminClient.class);
+    private static final Logger LOGGER = LogManager.getLogger(JulieAdminClient.class);
 
     private AdminClient adminClient;
 
-    public HermannAdminClient(AdminClient adminClient) {
+    public JulieAdminClient(AdminClient adminClient) {
         this.adminClient = adminClient;
     }
 
@@ -134,7 +134,7 @@ public class HermannAdminClient {
         clearAcls(filters);
     }
 
-    public void clearAcls(HermannAclBinding aclBinding) throws IOException {
+    public void clearAcls(JulieAclBinding aclBinding) throws IOException {
         Collection<AclBindingFilter> filters = new ArrayList<>();
 
         LOGGER.debug("clearAcl = " + aclBinding);

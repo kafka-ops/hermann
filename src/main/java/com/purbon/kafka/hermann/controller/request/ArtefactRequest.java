@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class ArtefactRequest<T extends ArtefactSpec> {
 
+    private String name;
     private String namespace;
     private T spec;
 }

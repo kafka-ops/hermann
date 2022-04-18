@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/")
@@ -49,7 +50,7 @@ public class TopicsController {
     }
 
     @DeleteMapping("/topics/{name}")
-    public Boolean delete(@PathVariable(value = "name") String name) throws IOException {
+    public Optional<TopicResponse> delete(@PathVariable(value = "name") String name) throws IOException {
         return topicManager.delete(name);
     }
 }

@@ -1,4 +1,4 @@
-package com.purbon.kafka.hermann.model;
+package com.purbon.kafka.julie.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public class HermannAclBinding {
+public class JulieAclBinding {
 
     @JsonIgnore
     private Optional<AclBinding> aclBindingOptional;
@@ -25,7 +25,7 @@ public class HermannAclBinding {
     private String pattern;
 
 
-    public HermannAclBinding(
+    public JulieAclBinding(
             String resourceType,
             String resourceName,
             String host,
@@ -41,7 +41,7 @@ public class HermannAclBinding {
         this.aclBindingOptional = Optional.empty();
     }
 
-    public static HermannAclBinding build(
+    public static JulieAclBinding build(
             String resourceTypeString,
             String resourceName,
             String host,
@@ -50,15 +50,15 @@ public class HermannAclBinding {
             String pattern) {
 
         ResourceType resourceType = ResourceType.valueOf(resourceTypeString);
-        return new HermannAclBinding(
+        return new JulieAclBinding(
                 resourceType.name(), resourceName, host, operation, principal, pattern);
     }
 
-    public HermannAclBinding() {
+    public JulieAclBinding() {
         this(ResourceType.ANY.name(), "", "", "", "", "");
     }
 
-    public HermannAclBinding(AclBinding binding) {
+    public JulieAclBinding(AclBinding binding) {
 
         this.aclBindingOptional = Optional.of(binding);
 
